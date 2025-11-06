@@ -39,6 +39,10 @@ function MarkAsPaid() {
   const [marking, setMarking] = useState(false);
   const [error, setError] = useState(null);
 
+  // Tab state
+  const [activeTab, setActiveTab] = useState('active'); // 'active' or 'process_later'
+  const [movingOrders, setMovingOrders] = useState(false);
+
   // Filter states
   const [searchValue, setSearchValue] = useState('');
   const [sortValue, setSortValue] = useState('date-desc');
@@ -50,7 +54,7 @@ function MarkAsPaid() {
 
   useEffect(() => {
     applyFiltersAndSort();
-  }, [draftOrders, searchValue, sortValue, priceRange]);
+  }, [draftOrders, searchValue, sortValue, priceRange, activeTab]);
 
   const fetchDraftOrders = async () => {
     try {
@@ -76,6 +80,9 @@ function MarkAsPaid() {
 
   const applyFiltersAndSort = () => {
     let filtered = [...draftOrders];
+
+    // Filter by active tab
+    filtered = filtered.filter(order => order.processingStatus === activeTab);
 
     // Apply search filter
     if (searchValue) {
@@ -251,6 +258,78 @@ function MarkAsPaid() {
     }
   };
 
+  const handleMoveToProcessLater = async () => {
+    if (selectedOrders.size === 0) {
+      alert('Please select at least one order to move to Process Later');
+      return;
+    }
+
+    setMovingOrders(true);
+    try {
+      const response = await fetch('/api/draft-orders/move-to-process-later', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          draftOrderIds: Array.from(selectedOrders)
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to move orders');
+      }
+
+      alert(`Moved ${data.summary.successful} order(s) to Process Later`);
+
+      // Refresh and clear selections
+      await fetchDraftOrders();
+      setSelectedOrders(new Set());
+
+    } catch (error) {
+      console.error('Move to Process Later error:', error);
+      alert(`Failed to move orders: ${error.message}`);
+    } finally {
+      setMovingOrders(false);
+    }
+  };
+
+  const handleMoveToActive = async () => {
+    if (selectedOrders.size === 0) {
+      alert('Please select at least one order to move to Active');
+      return;
+    }
+
+    setMovingOrders(true);
+    try {
+      const response = await fetch('/api/draft-orders/move-to-active', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          draftOrderIds: Array.from(selectedOrders)
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to move orders');
+      }
+
+      alert(`Moved ${data.summary.successful} order(s) to Active`);
+
+      // Refresh and clear selections
+      await fetchDraftOrders();
+      setSelectedOrders(new Set());
+
+    } catch (error) {
+      console.error('Move to Active error:', error);
+      alert(`Failed to move orders: ${error.message}`);
+    } finally {
+      setMovingOrders(false);
+    }
+  };
+
   const handleClearFilters = () => {
     setSearchValue('');
     setSortValue('date-desc');
@@ -376,13 +455,91 @@ function MarkAsPaid() {
     );
   }
 
+  // Count orders by tab
+  const activeCount = draftOrders.filter(o => o.processingStatus === 'active').length;
+  const processLaterCount = draftOrders.filter(o => o.processingStatus === 'process_later').length;
+
   return (
     <div className="markaspaid-container">
       <div className="markaspaid-max-width">
         {/* Header */}
         <div className="markaspaid-header">
           <h1 className="markaspaid-title">Mark Draft Orders as Paid</h1>
-          <p className="markaspaid-subtitle">{filteredOrders.length} open draft order(s) found</p>
+          <p className="markaspaid-subtitle">{filteredOrders.length} order(s) in current tab</p>
+        </div>
+
+        {/* Beautiful Tab Navigation */}
+        <div style={{
+          display: 'flex',
+          gap: '0.5rem',
+          marginBottom: '1.5rem',
+          borderBottom: '2px solid #E5E7EB',
+          paddingBottom: '0'
+        }}>
+          <button
+            onClick={() => {
+              setActiveTab('active');
+              setSelectedOrders(new Set());
+            }}
+            style={{
+              padding: '0.75rem 1.5rem',
+              border: 'none',
+              borderBottom: activeTab === 'active' ? '3px solid #10B981' : '3px solid transparent',
+              background: activeTab === 'active' ? 'linear-gradient(to bottom, #F0FDF4, transparent)' : 'transparent',
+              color: activeTab === 'active' ? '#10B981' : '#6B7280',
+              fontWeight: activeTab === 'active' ? '600' : '500',
+              fontSize: '1rem',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              borderRadius: '0.5rem 0.5rem 0 0',
+              position: 'relative',
+              bottom: '-2px'
+            }}
+            onMouseEnter={(e) => {
+              if (activeTab !== 'active') {
+                e.currentTarget.style.background = 'rgba(229, 231, 235, 0.3)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (activeTab !== 'active') {
+                e.currentTarget.style.background = 'transparent';
+              }
+            }}
+          >
+            📋 Active ({activeCount})
+          </button>
+          <button
+            onClick={() => {
+              setActiveTab('process_later');
+              setSelectedOrders(new Set());
+            }}
+            style={{
+              padding: '0.75rem 1.5rem',
+              border: 'none',
+              borderBottom: activeTab === 'process_later' ? '3px solid #F59E0B' : '3px solid transparent',
+              background: activeTab === 'process_later' ? 'linear-gradient(to bottom, #FFFBEB, transparent)' : 'transparent',
+              color: activeTab === 'process_later' ? '#F59E0B' : '#6B7280',
+              fontWeight: activeTab === 'process_later' ? '600' : '500',
+              fontSize: '1rem',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              borderRadius: '0.5rem 0.5rem 0 0',
+              position: 'relative',
+              bottom: '-2px'
+            }}
+            onMouseEnter={(e) => {
+              if (activeTab !== 'process_later') {
+                e.currentTarget.style.background = 'rgba(229, 231, 235, 0.3)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (activeTab !== 'process_later') {
+                e.currentTarget.style.background = 'transparent';
+              }
+            }}
+          >
+            ⏰ Process Later ({processLaterCount})
+          </button>
         </div>
 
         {/* Action Buttons */}
@@ -404,6 +561,53 @@ function MarkAsPaid() {
               </>
             )}
           </button>
+
+          {/* Move to Process Later (only show when in Active tab) */}
+          {activeTab === 'active' && (
+            <button
+              onClick={handleMoveToProcessLater}
+              disabled={selectedOrders.size === 0 || movingOrders}
+              className="markaspaid-btn-secondary"
+              style={{
+                background: '#FFF7ED',
+                borderColor: '#F59E0B',
+                color: '#D97706'
+              }}
+            >
+              {movingOrders ? (
+                <>
+                  <Spinner size="small" />
+                  <span>Moving...</span>
+                </>
+              ) : (
+                <span>⏰ Process Later ({selectedOrders.size})</span>
+              )}
+            </button>
+          )}
+
+          {/* Move to Active (only show when in Process Later tab) */}
+          {activeTab === 'process_later' && (
+            <button
+              onClick={handleMoveToActive}
+              disabled={selectedOrders.size === 0 || movingOrders}
+              className="markaspaid-btn-secondary"
+              style={{
+                background: '#F0FDF4',
+                borderColor: '#10B981',
+                color: '#059669'
+              }}
+            >
+              {movingOrders ? (
+                <>
+                  <Spinner size="small" />
+                  <span>Moving...</span>
+                </>
+              ) : (
+                <span>📋 Move to Active ({selectedOrders.size})</span>
+              )}
+            </button>
+          )}
+
           {secondaryActions.map((action, index) => (
             <button key={index} onClick={action.onAction} className="markaspaid-btn-secondary">
               {action.content}

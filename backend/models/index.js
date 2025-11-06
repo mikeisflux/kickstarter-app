@@ -24,6 +24,9 @@ const BoxAssignment = require('./BoxAssignment');
 const ProductDimension = require('./ProductDimension');
 const BoxSelectorSettings = require('./BoxSelectorSettings');
 
+// Draft Order Status (for mark-as-paid tabs)
+const DraftOrderStatus = require('./DraftOrderStatus');
+
 // Define relationships
 Project.hasMany(Backer, { foreignKey: 'projectId' });
 Backer.belongsTo(Project, { foreignKey: 'projectId' });
@@ -70,6 +73,9 @@ async function syncDatabase() {
     await BoxAssignment.sync({ alter: true });
     await ProductDimension.sync({ alter: true });
     await BoxSelectorSettings.sync({ alter: true });
+
+    // Create Draft Order Status table
+    await DraftOrderStatus.sync({ alter: true });
 
     console.log('✅ All models synchronized successfully');
 
@@ -123,5 +129,6 @@ module.exports = {
   BoxAssignment,
   ProductDimension,
   BoxSelectorSettings,
+  DraftOrderStatus,
   syncDatabase
 };
