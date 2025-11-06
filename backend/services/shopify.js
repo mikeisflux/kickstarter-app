@@ -751,7 +751,24 @@ async function markDraftOrdersAsPaid(draftOrderIds) {
       const draftOrderResponse = await client.get(`draft_orders/${draftOrderId}`);
       const draftOrder = draftOrderResponse.draft_order;
 
-      // Complete the draft order - this converts it to a regular order
+      // CRITICAL FIX: Update the draft order to recalculate prices before completing
+      // This ensures that product prices are current and prevents the 422 error:
+      // "The previously proposed price for this merchandise was invalid and has been updated"
+      logger.info(`Updating draft order ${draftOrder.name} to recalculate prices...`);
+
+      const updateData = {
+        draft_order: {
+          line_items: draftOrder.line_items.map(item => ({
+            variant_id: item.variant_id,
+            quantity: item.quantity
+          }))
+        }
+      };
+
+      await client.put(`draft_orders/${draftOrderId}`, updateData);
+      logger.info(`✓ Successfully recalculated prices for draft order ${draftOrder.name}`);
+
+      // Now complete the draft order - this converts it to a regular order
       // We mark it as paid by setting payment_pending to false
       const completeResponse = await client.put(`draft_orders/${draftOrderId}/complete`, {
         payment_pending: false
