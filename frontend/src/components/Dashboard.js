@@ -20,7 +20,14 @@ import {
   Package,
   UserCircle,
   ShieldCheck,
-  DollarSign
+  DollarSign,
+  TrendingUp,
+  Truck,
+  Tag,
+  Settings,
+  Box as BoxIcon,
+  Ruler,
+  Layout
 } from 'lucide-react';
 
 function Dashboard() {
@@ -464,6 +471,194 @@ function Dashboard() {
               <UserCircle size={24} style={{ marginBottom: '0.5rem' }} />
               <div style={{ fontWeight: '600' }}>Station 3</div>
               <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>Employee view</div>
+            </button>
+          </div>
+        </div>
+
+        {/* NEW: Wholesale Pricing System */}
+        <div style={{
+          background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+          borderRadius: '1rem',
+          padding: '2rem',
+          marginBottom: '2rem',
+          color: 'white'
+        }}>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: '600', marginBottom: '1rem' }}>
+            💰 Wholesale Pricing
+          </h2>
+          <p style={{ marginBottom: '1.5rem', opacity: 0.9 }}>
+            Manage B2B pricing rules, volume discounts, shipping rates, and order minimums
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+            <button
+              onClick={() => navigate('/wholesale/pricing-rules')}
+              style={{
+                padding: '1rem',
+                background: 'rgba(255, 255, 255, 0.2)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '0.5rem',
+                color: 'white',
+                cursor: 'pointer',
+                textAlign: 'left',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
+            >
+              <TrendingUp size={24} style={{ marginBottom: '0.5rem' }} />
+              <div style={{ fontWeight: '600' }}>Pricing Rules</div>
+              <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>Manage discounts</div>
+            </button>
+            <button
+              onClick={() => navigate('/wholesale/shipping')}
+              style={{
+                padding: '1rem',
+                background: 'rgba(255, 255, 255, 0.2)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '0.5rem',
+                color: 'white',
+                cursor: 'pointer',
+                textAlign: 'left',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
+            >
+              <Truck size={24} style={{ marginBottom: '0.5rem' }} />
+              <div style={{ fontWeight: '600' }}>Shipping Rules</div>
+              <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>Custom rates</div>
+            </button>
+            <button
+              onClick={() => navigate('/wholesale/order-limits')}
+              style={{
+                padding: '1rem',
+                background: 'rgba(255, 255, 255, 0.2)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '0.5rem',
+                color: 'white',
+                cursor: 'pointer',
+                textAlign: 'left',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
+            >
+              <Tag size={24} style={{ marginBottom: '0.5rem' }} />
+              <div style={{ fontWeight: '600' }}>Order Limits</div>
+              <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>Minimum orders</div>
+            </button>
+            <button
+              onClick={() => navigate('/wholesale/settings')}
+              style={{
+                padding: '1rem',
+                background: 'rgba(255, 255, 255, 0.2)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '0.5rem',
+                color: 'white',
+                cursor: 'pointer',
+                textAlign: 'left',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
+            >
+              <Settings size={24} style={{ marginBottom: '0.5rem' }} />
+              <div style={{ fontWeight: '600' }}>Settings</div>
+              <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>Configure app</div>
+            </button>
+          </div>
+        </div>
+
+        {/* NEW: Box Selector System */}
+        <div style={{
+          background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+          borderRadius: '1rem',
+          padding: '2rem',
+          marginBottom: '2rem',
+          color: 'white'
+        }}>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: '600', marginBottom: '1rem' }}>
+            📦 Box Selector
+          </h2>
+          <p style={{ marginBottom: '1.5rem', opacity: 0.9 }}>
+            Smart box selection with packing algorithm, dimension tracking, and shipping optimization
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmin(200px, 1fr))', gap: '1rem' }}>
+            <button
+              onClick={() => navigate('/box-selector/boxes')}
+              style={{
+                padding: '1rem',
+                background: 'rgba(255, 255, 255, 0.2)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '0.5rem',
+                color: 'white',
+                cursor: 'pointer',
+                textAlign: 'left',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
+            >
+              <BoxIcon size={24} style={{ marginBottom: '0.5rem' }} />
+              <div style={{ fontWeight: '600' }}>Box Library</div>
+              <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>Manage boxes</div>
+            </button>
+            <button
+              onClick={() => navigate('/box-selector/dimensions')}
+              style={{
+                padding: '1rem',
+                background: 'rgba(255, 255, 255, 0.2)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '0.5rem',
+                color: 'white',
+                cursor: 'pointer',
+                textAlign: 'left',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
+            >
+              <Ruler size={24} style={{ marginBottom: '0.5rem' }} />
+              <div style={{ fontWeight: '600' }}>Product Dimensions</div>
+              <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>Manage sizing</div>
+            </button>
+            <button
+              onClick={() => navigate('/box-selector/assignments')}
+              style={{
+                padding: '1rem',
+                background: 'rgba(255, 255, 255, 0.2)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '0.5rem',
+                color: 'white',
+                cursor: 'pointer',
+                textAlign: 'left',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
+            >
+              <Layout size={24} style={{ marginBottom: '0.5rem' }} />
+              <div style={{ fontWeight: '600' }}>Assignments</div>
+              <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>Order tracking</div>
+            </button>
+            <button
+              onClick={() => navigate('/box-selector/settings')}
+              style={{
+                padding: '1rem',
+                background: 'rgba(255, 255, 255, 0.2)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '0.5rem',
+                color: 'white',
+                cursor: 'pointer',
+                textAlign: 'left',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
+            >
+              <Settings size={24} style={{ marginBottom: '0.5rem' }} />
+              <div style={{ fontWeight: '600' }}>Settings</div>
+              <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>Configure packing</div>
             </button>
           </div>
         </div>
