@@ -28,9 +28,15 @@ import MarkAsPaid from './components/MarkAsPaid';
 
 // WHOLESALE IMPORTS
 import WholesalePricingRules from './components/WholesalePricingRules';
+import WholesaleShipping from './components/WholesaleShipping';
+import WholesaleOrderLimits from './components/WholesaleOrderLimits';
+import WholesaleSettings from './components/WholesaleSettings';
 
 // BOX SELECTOR IMPORTS
 import BoxLibrary from './components/BoxLibrary';
+import ProductDimensions from './components/ProductDimensions';
+import BoxAssignments from './components/BoxAssignments';
+import BoxSettings from './components/BoxSettings';
 
 function App() {
   return (
@@ -93,15 +99,15 @@ function App() {
 
           {/* WHOLESALE PRICING ROUTES */}
           <Route path="/wholesale/pricing-rules" element={<WholesalePricingRules />} />
-          <Route path="/wholesale/shipping" element={<div style={{padding: '2rem', textAlign: 'center'}}><h1>Wholesale Shipping Rules</h1><p>Coming soon - API ready at /api/wholesale/shipping-rules</p></div>} />
-          <Route path="/wholesale/order-limits" element={<div style={{padding: '2rem', textAlign: 'center'}}><h1>Wholesale Order Limits</h1><p>Coming soon - API ready at /api/wholesale/order-limits</p></div>} />
-          <Route path="/wholesale/settings" element={<div style={{padding: '2rem', textAlign: 'center'}}><h1>Wholesale Settings</h1><p>Coming soon - API ready at /api/wholesale/settings</p></div>} />
+          <Route path="/wholesale/shipping" element={<WholesaleShipping />} />
+          <Route path="/wholesale/order-limits" element={<WholesaleOrderLimits />} />
+          <Route path="/wholesale/settings" element={<WholesaleSettings />} />
 
           {/* BOX SELECTOR ROUTES */}
           <Route path="/box-selector/boxes" element={<BoxLibrary />} />
-          <Route path="/box-selector/dimensions" element={<div style={{padding: '2rem', textAlign: 'center'}}><h1>Product Dimensions</h1><p>Coming soon - API ready at /api/box-selector/product-dimensions</p></div>} />
-          <Route path="/box-selector/assignments" element={<div style={{padding: '2rem', textAlign: 'center'}}><h1>Box Assignments</h1><p>Coming soon - API ready at /api/box-selector/assignments</p></div>} />
-          <Route path="/box-selector/settings" element={<div style={{padding: '2rem', textAlign: 'center'}}><h1>Box Selector Settings</h1><p>Coming soon - API ready at /api/box-selector/settings</p></div>} />
+          <Route path="/box-selector/dimensions" element={<ProductDimensions />} />
+          <Route path="/box-selector/assignments" element={<BoxAssignments />} />
+          <Route path="/box-selector/settings" element={<BoxSettings />} />
         </Routes>
       </Router>
     </AppProvider>
