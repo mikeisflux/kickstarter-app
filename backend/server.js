@@ -57,6 +57,12 @@ app.use('/api/employee', require('./routes/employee'));
 // DRAFT ORDERS ROUTES - Mark as Paid functionality
 app.use('/api/draft-orders', require('./routes/draftOrders'));
 
+// WHOLESALE PRICING ROUTES
+app.use('/api/wholesale', require('./routes/wholesale'));
+
+// BOX SELECTOR ROUTES
+app.use('/api/box-selector', require('./routes/boxSelector'));
+
 // Handle all other routes - serve React app
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
