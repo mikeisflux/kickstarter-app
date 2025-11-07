@@ -26,6 +26,12 @@ import OrderScanningPage from './components/OrderScanningPage';
 // MARK AS PAID IMPORT
 import MarkAsPaid from './components/MarkAsPaid';
 
+// WHOLESALE IMPORTS
+import WholesalePricingRules from './components/WholesalePricingRules';
+
+// BOX SELECTOR IMPORTS
+import BoxLibrary from './components/BoxLibrary';
+
 function App() {
   return (
     <AppProvider 
@@ -84,6 +90,18 @@ function App() {
           <Route path="/employee/:userId" element={<EmployeeStation />} />
           <Route path="/employee/:userId/pull-list/:assignmentId" element={<PullList />} />
           <Route path="/employee/:userId/scan/:assignmentId" element={<OrderScanningPage />} />
+
+          {/* WHOLESALE PRICING ROUTES */}
+          <Route path="/wholesale/pricing-rules" element={<WholesalePricingRules />} />
+          <Route path="/wholesale/shipping" element={<div style={{padding: '2rem', textAlign: 'center'}}><h1>Wholesale Shipping Rules</h1><p>Coming soon - API ready at /api/wholesale/shipping-rules</p></div>} />
+          <Route path="/wholesale/order-limits" element={<div style={{padding: '2rem', textAlign: 'center'}}><h1>Wholesale Order Limits</h1><p>Coming soon - API ready at /api/wholesale/order-limits</p></div>} />
+          <Route path="/wholesale/settings" element={<div style={{padding: '2rem', textAlign: 'center'}}><h1>Wholesale Settings</h1><p>Coming soon - API ready at /api/wholesale/settings</p></div>} />
+
+          {/* BOX SELECTOR ROUTES */}
+          <Route path="/box-selector/boxes" element={<BoxLibrary />} />
+          <Route path="/box-selector/dimensions" element={<div style={{padding: '2rem', textAlign: 'center'}}><h1>Product Dimensions</h1><p>Coming soon - API ready at /api/box-selector/product-dimensions</p></div>} />
+          <Route path="/box-selector/assignments" element={<div style={{padding: '2rem', textAlign: 'center'}}><h1>Box Assignments</h1><p>Coming soon - API ready at /api/box-selector/assignments</p></div>} />
+          <Route path="/box-selector/settings" element={<div style={{padding: '2rem', textAlign: 'center'}}><h1>Box Selector Settings</h1><p>Coming soon - API ready at /api/box-selector/settings</p></div>} />
         </Routes>
       </Router>
     </AppProvider>
