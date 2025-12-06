@@ -148,16 +148,20 @@ async function findOrCreateCustomer(client, backer) {
                 state: 'subscribed',
                 opt_in_level: 'confirmed_opt_in',
                 consent_updated_at: new Date().toISOString()
-              },
-              sms_marketing_consent: {
-                state: 'subscribed',
-                opt_in_level: 'single_opt_in',
-                consent_updated_at: new Date().toISOString(),
-                consent_collected_from: 'OTHER'
               }
             }
           };
-          
+
+          // Only include SMS marketing consent if phone number is provided
+          if (backerPhone && backerPhone.trim() !== '') {
+            updateData.customer.sms_marketing_consent = {
+              state: 'subscribed',
+              opt_in_level: 'single_opt_in',
+              consent_updated_at: new Date().toISOString(),
+              consent_collected_from: 'OTHER'
+            };
+          }
+
           await client.put(`customers/${existingCustomer.id}`, updateData);
           logger.info(`✓ Updated phone and marketing consent for customer ${existingCustomer.id}`);
           console.log(`✓ Phone number and marketing consent updated successfully`);
@@ -175,7 +179,7 @@ async function findOrCreateCustomer(client, backer) {
     }
     
     console.log(`[findOrCreateCustomer] No existing customer found, creating new one...`);
-    
+
     // Customer doesn't exist, create new one with phone number and marketing consent
     const customerData = {
       customer: {
@@ -198,15 +202,19 @@ async function findOrCreateCustomer(client, backer) {
           opt_in_level: 'confirmed_opt_in',
           consent_updated_at: new Date().toISOString()
         },
-        sms_marketing_consent: {
-          state: 'subscribed',
-          opt_in_level: 'single_opt_in',
-          consent_updated_at: new Date().toISOString(),
-          consent_collected_from: 'OTHER'
-        },
         tags: 'Kickstarter, Import'
       }
     };
+
+    // Only include SMS marketing consent if phone number is provided
+    if (backerPhone && backerPhone.trim() !== '') {
+      customerData.customer.sms_marketing_consent = {
+        state: 'subscribed',
+        opt_in_level: 'single_opt_in',
+        consent_updated_at: new Date().toISOString(),
+        consent_collected_from: 'OTHER'
+      };
+    }
     
     console.log(`[findOrCreateCustomer] Creating customer with data:`, JSON.stringify(customerData, null, 2));
     
